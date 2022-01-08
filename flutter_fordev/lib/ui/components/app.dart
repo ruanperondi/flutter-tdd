@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_fordev/ui/pages/pages.dart';
-
-import '../pages/login/login_page.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -34,10 +31,9 @@ class App extends StatelessWidget {
     );
 
     return MaterialApp(
-      title: '4Dev',
-      debugShowCheckedModeBanner: false,
-      theme: theme.copyWith(colorScheme: theme.colorScheme.copyWith(primary: primaryColor)),
-      home: LoginPage(presenter: LoginPresenterFInal()),
-    );
+        title: '4Dev',
+        debugShowCheckedModeBanner: false,
+        theme: theme.copyWith(colorScheme: theme.colorScheme.copyWith(primary: primaryColor)),
+        home: Container());
   }
 }
