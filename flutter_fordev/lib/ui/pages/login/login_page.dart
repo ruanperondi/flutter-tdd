@@ -15,6 +15,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  void hideKeyboard() {
+    FocusScope.of(context).requestFocus(FocusNode());
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -37,29 +41,32 @@ class _LoginPageState extends State<LoginPage> {
           showErrorMessage(context, error);
         });
 
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const LoginHeader(),
-              const Headline1(text: "Login"),
-              Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Provider<LoginPresenter>(
-                  create: (_) => widget.presenter,
-                  child: Form(
-                    child: Column(
-                      children: [
-                        const EmailInput(),
-                        const PasswordInput(),
-                        const LoginButton(),
-                        TextButton.icon(onPressed: () {}, icon: const Icon(Icons.person), label: const Text('Criar Conta'))
-                      ],
+        return GestureDetector(
+          onTap: () => hideKeyboard(),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const LoginHeader(),
+                const Headline1(text: "Login"),
+                Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Provider<LoginPresenter>(
+                    create: (_) => widget.presenter,
+                    child: Form(
+                      child: Column(
+                        children: [
+                          const EmailInput(),
+                          const PasswordInput(),
+                          const LoginButton(),
+                          TextButton.icon(onPressed: () {}, icon: const Icon(Icons.person), label: const Text('Criar Conta'))
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         );
       }),

@@ -8,7 +8,7 @@ class RequiredFieldValidation extends FieldValidation {
 
   @override
   String validate(String? value) {
-    if (value == null || value?.isEmpty == true) {
+    if (value == null || value.isEmpty == true) {
       return 'Campo Obrigatório';
     }
 

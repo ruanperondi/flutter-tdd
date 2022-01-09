@@ -1,7 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void showErrorMessage(BuildContext context, String error) {
+  if (error.isEmpty) {
+    return;
+  }
+
   final snackBar = SnackBar(
     content: Text(
       error,
