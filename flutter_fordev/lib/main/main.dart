@@ -22,7 +22,7 @@ class App extends StatelessWidget {
       title: '4Dev',
       debugShowCheckedModeBanner: false,
       theme: theme.copyWith(
-        colorScheme: theme.colorScheme.copyWith(primary: Theme.of(context).primaryColor),
+        colorScheme: theme.colorScheme.copyWith(primary: theme.primaryColor),
       ),
       initialRoute: "/login",
       getPages: [GetPage(name: "/login", page: makeLoginPage)],

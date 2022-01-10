@@ -4,7 +4,7 @@ import '../../validation/validators/validators.dart';
 class ValidationBuilder {
   String fieldName;
 
-  List<FieldValidation> _validations = [];
+  final List<FieldValidation> _validations = [];
 
   ValidationBuilder._(this.fieldName);
 

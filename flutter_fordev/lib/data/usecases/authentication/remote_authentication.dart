@@ -1,9 +1,9 @@
-import '../../domain/entity/entities.dart';
-import '../../domain/helpers/helpers.dart';
-import '../../domain/usecases/usecases.dart';
+import '../../../domain/entity/entities.dart';
+import '../../../domain/helpers/helpers.dart';
+import '../../../domain/usecases/usecases.dart';
 
-import '../models/remote_account_model.dart';
-import '../http/http.dart';
+import '../../models/remote_account_model.dart';
+import '../../http/http.dart';
 
 class RemoteAuthentication extends Authentication {
   final HttpClient httpClient;

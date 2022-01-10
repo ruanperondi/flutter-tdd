@@ -1,4 +1,4 @@
-import 'package:flutter_fordev/presentation/presenters/getx_login_presenter%20copy.dart';
+import 'package:flutter_fordev/presentation/presenters/getx_login_presenter.dart';
 
 import '../../../../presentation/presenters/presenters.dart';
 import '../../../../ui/pages/pages.dart';

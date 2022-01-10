@@ -1,5 +1,5 @@
 import 'package:faker/faker.dart';
-import 'package:flutter_fordev/presentation/presenters/getx_login_presenter%20copy.dart';
+import 'package:flutter_fordev/presentation/presenters/getx_login_presenter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
