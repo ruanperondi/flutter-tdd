@@ -25,7 +25,14 @@ class App extends StatelessWidget {
         colorScheme: theme.colorScheme.copyWith(primary: theme.primaryColor),
       ),
       initialRoute: "/login",
-      getPages: [GetPage(name: "/login", page: makeLoginPage)],
+      getPages: [
+        GetPage(name: "/login", page: makeLoginPage),
+        GetPage(
+            name: "/surveys",
+            page: () => Scaffold(
+                  body: Text("Enquetes"),
+                )),
+      ],
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:faker/faker.dart';
+import 'package:flutter_fordev/domain/usecases/usecases.dart';
 import 'package:flutter_fordev/presentation/presenters/getx_login_presenter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -6,17 +7,17 @@ import 'package:test/test.dart';
 
 import 'package:flutter_fordev/domain/entity/account_entity.dart';
 import 'package:flutter_fordev/domain/helpers/domain_error.dart';
-import 'package:flutter_fordev/domain/usecases/authentication.dart';
 import 'package:flutter_fordev/presentation/protocols/protocols.dart';
-import 'stream_login_presenter_test.mocks.dart';
+import 'getx_login_presenter_test.mocks.dart';
 
-@GenerateMocks([Validation, Authentication])
+@GenerateMocks([Validation, Authentication, SaveCurrentAccount])
 main() {
   late MockValidation mockValidation;
   late GetxLoginPresenter sut;
   late String email;
   late String password;
   late MockAuthentication authentication;
+  late MockSaveCurrentAccount saveCurrentAccount;
 
   PostExpectation mockValidationCall({String? field, String? value}) =>
       when(mockValidation.validate(field: field ?? anyNamed('field'), value: value ?? anyNamed('value')));
@@ -28,7 +29,8 @@ main() {
   setUp(() {
     authentication = MockAuthentication();
     mockValidation = MockValidation();
-    sut = GetxLoginPresenter(validation: mockValidation, authentication: authentication);
+    saveCurrentAccount = MockSaveCurrentAccount();
+    sut = GetxLoginPresenter(validation: mockValidation, authentication: authentication, saveCurrentAccount: saveCurrentAccount);
     email = faker.internet.email();
     password = faker.internet.password();
   });
@@ -136,10 +138,46 @@ main() {
 
     when(authentication.auth(any)).thenAnswer((_) async => AccountEntity(faker.guid.guid()));
 
-    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    expectLater(sut.isLoadingStream, emits(true));
 
     sut.validateEmail(email);
     sut.validatePassword(password);
+
+    await sut.auth();
+  });
+
+  test('Should call SaveCurrentAccount with correct values', () async {
+    mockValidationReturn(field: 'email', returnValue: '');
+    mockValidationReturn(field: 'password', returnValue: '');
+
+    var account = AccountEntity(faker.guid.guid());
+
+    when(authentication.auth(any)).thenAnswer((_) async => account);
+    when(saveCurrentAccount.save(account)).thenAnswer((_) async {});
+
+    sut.validateEmail(email);
+    await Future.delayed(Duration.zero);
+    sut.validatePassword(password);
+
+    await sut.auth();
+
+    verify(authentication.auth(AuthenticationParams(email: email, secret: password))).called(1);
+    verify(saveCurrentAccount.save(account));
+  });
+
+  test('Should change page to surveys on success', () async {
+    mockValidationReturn(field: 'email', returnValue: '');
+    mockValidationReturn(field: 'password', returnValue: '');
+
+    var account = AccountEntity(faker.guid.guid());
+
+    when(authentication.auth(any)).thenAnswer((_) async => account);
+    when(saveCurrentAccount.save(account)).thenAnswer((_) async {});
+
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+
+    sut.navigateToStream.listen(expectAsync1((page) => expect(page, '/surveys')));
 
     await sut.auth();
   });

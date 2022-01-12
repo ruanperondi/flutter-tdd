@@ -45,6 +45,10 @@ class MockLoginPresenter extends _i1.Mock implements _i2.LoginPresenter {
       (super.noSuchMethod(Invocation.getter(#mainErrorStream),
           returnValue: Stream<String>.empty()) as _i3.Stream<String>);
   @override
+  _i3.Stream<String> get navigateToStream =>
+      (super.noSuchMethod(Invocation.getter(#navigateToStream),
+          returnValue: Stream<String>.empty()) as _i3.Stream<String>);
+  @override
   _i3.Future<void> auth() => (super.noSuchMethod(Invocation.method(#auth, []),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i3.Future<void>);

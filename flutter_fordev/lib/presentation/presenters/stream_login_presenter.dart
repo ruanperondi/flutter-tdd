@@ -14,6 +14,7 @@ class LoginState {
 
   String emailError = '';
   String passwordError = '';
+  String navigateTo = '';
   bool get isFormValid => emailError.isEmpty && passwordError.isEmpty && email.isNotEmpty && password.isNotEmpty;
 
   bool isLoading = false;
@@ -96,4 +97,7 @@ class StreamLoginPresenter extends LoginPresenter {
   void _update() {
     _controller.add(_state);
   }
+
+  @override
+  Stream<String> get navigateToStream => _controller.stream.map((state) => state.navigateTo).distinct();
 }

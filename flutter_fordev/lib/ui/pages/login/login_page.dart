@@ -1,35 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/components.dart';
 import 'components/components.dart';
 import 'login_presenter.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   final LoginPresenter presenter;
 
   const LoginPage({Key? key, required this.presenter}) : super(key: key);
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  void hideKeyboard() {
+  void hideKeyboard(BuildContext context) {
     FocusScope.of(context).requestFocus(FocusNode());
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    widget.presenter.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(builder: (context) {
-        widget.presenter.isLoadingStream.listen((isLoading) {
+        presenter.isLoadingStream.listen((isLoading) {
           if (isLoading) {
             showLoading(context);
           } else {
@@ -37,12 +27,18 @@ class _LoginPageState extends State<LoginPage> {
           }
         });
 
-        widget.presenter.mainErrorStream.listen((error) {
+        presenter.mainErrorStream.listen((error) {
           showErrorMessage(context, error);
         });
 
+        presenter.navigateToStream.listen((page) {
+          if (page.isNotEmpty) {
+            Get.offAllNamed(page);
+          }
+        });
+
         return GestureDetector(
-          onTap: () => hideKeyboard(),
+          onTap: () => hideKeyboard(context),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,15 +48,10 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.all(32.0),
                   child: Provider<LoginPresenter>(
-                    create: (_) => widget.presenter,
+                    create: (_) => presenter,
                     child: Form(
                       child: Column(
-                        children: [
-                          const EmailInput(),
-                          const PasswordInput(),
-                          const LoginButton(),
-                          TextButton.icon(onPressed: () {}, icon: const Icon(Icons.person), label: const Text('Criar Conta'))
-                        ],
+                        children: [const EmailInput(), const PasswordInput(), const LoginButton(), TextButton.icon(onPressed: () {}, icon: const Icon(Icons.person), label: const Text('Criar Conta'))],
                       ),
                     ),
                   ),
