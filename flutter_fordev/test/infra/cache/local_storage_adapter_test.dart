@@ -19,9 +19,11 @@ void main() {
     when(mockFlutterSecureStorage.write(key: anyNamed('key'), value: ('value')));
   });
 
-  test('Should call save secure with correct values', () async {
-    await sut.save(key: 'key', value: 'value');
+  group('saveSecure', () {
+    test('Should call save secure with correct values', () async {
+      await sut.save(key: 'key', value: 'value');
 
-    verify(mockFlutterSecureStorage.write(key: 'key', value: 'value'));
+      verify(mockFlutterSecureStorage.write(key: 'key', value: 'value'));
+    });
   });
 }
